@@ -114,4 +114,6 @@ We're just getting started, and there's a lot more on the horizon! Here’s a sn
   - **Rate Limiting**: To prevent abuse and maintain system stability, we’ll be introducing rate limits on API calls.
   - **Token-based Authentication**: For internal API calls, we’ll require secure tokens, ensuring that only authorized requests can access sensitive data and features.
 
-## ❤️ Made with care by Asyraf
+---
+
+_🧠 Engineered by Asyraf_
