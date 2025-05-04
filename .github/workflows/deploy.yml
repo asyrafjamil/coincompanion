@@ -1,7 +1,10 @@
-name: Production deployment
+name: SAM Deployment
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -10,40 +13,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
-      - name: Checkout repository
+      # Step 1: Checkout the code from the repo
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      # Set up AWS CLI
+      # Step 2: Set up AWS CLI
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'ap-southeast-2'
+          aws-region: ap-southeast-2
 
-      # Install dependencies
-      - name: Install dependencies
+      # Step 3: Install SAM CLI
+      - name: Install SAM CLI
         run: |
-          npm install
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install aws-sam-cli
 
-      # Build AWS SAM project
-      - name: Build SAM application
+      # Step 4: Deploy using SAM CLI with parameters passed manually
+      - name: Deploy SAM Application
         run: |
-          sam build
-
-      # Deploy to AWS with parameter overrides
-      - name: Deploy to AWS
-        run: |
-          sam deploy \
-            --no-confirm-changeset \
+          sam deploy --no-confirm-changeset \
             --capabilities CAPABILITY_IAM \
             --parameter-overrides \
-            EmailSender=asyrafmj.aws@gmail.com \
-            CoinCompanionPriceHistoryUrl=https://xxhe9i7pn3.execute-api.ap-southeast-2.amazonaws.com/prod/internal/price/history
+            "EmailSender=${{ secrets.EMAIL_SENDER }}" \
+            "CoinCompanionPriceHistoryUrl=${{ secrets.COINCOMPANION_PRICE_HISTORY_URL }}" \
+            --stack-name coincompanion \
+            --region ap-southeast-2 \
+            --s3-prefix coincompanion \
+            --disable-rollback \
+            --resolve-s3 \
+            --profile personal
