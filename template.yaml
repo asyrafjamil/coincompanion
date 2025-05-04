@@ -1,0 +1,134 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: coincompanion
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Timeout: 20
+    MemorySize: 128
+    Architectures:
+      - x86_64
+
+Parameters:
+  EmailSender:
+    Type: String
+  CoinCompanionPriceHistoryUrl:
+    Type: String
+
+Resources:
+  GetCryptoPriceApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+
+  GetCryptoPriceHistoryApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+
+  CryptoPriceHistoryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: crypto-price-history-v2
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: N
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+
+  GetCryptoPriceHistoryFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: lambda.amazonaws.com
+
+  DynamoDBAccessPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: DynamoDBAccess
+      Roles:
+        - !Ref GetCryptoPriceHistoryFunctionRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:Query
+              - dynamodb:PutItem
+              - dynamodb:DescribeTable
+            Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/crypto-price-history-v2
+
+  SESPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: SESSendEmailPolicy
+      Roles:
+        - !Ref GetCryptoPriceFunctionRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - ses:SendEmail
+              - ses:SendRawEmail
+            Resource: '*'
+
+  # Microservice 1: Retrieve Current Price
+  GetCryptoPriceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambdaHandler
+      CodeUri: functions/query-crypto-price/
+      Environment:
+        Variables:
+          EMAIL_SENDER: !Ref EmailSender
+          COINCOMPANION_PRICE_HISTORY_URL: !Ref CoinCompanionPriceHistoryUrl
+      Events:
+        GetPriceAPI:
+          Type: Api
+          Properties:
+            Path: /price
+            Method: GET
+            RestApiId: !Ref GetCryptoPriceApi
+            RequestParameters:
+              - method.request.querystring.email: { Required: true }
+              - method.request.querystring.coin: { Required: true }
+
+  # Microservice 2: Retrieve Search History (internal API)
+  GetCryptoPriceHistoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambdaHandler
+      CodeUri: functions/query-crypto-history/
+      Role: !GetAtt GetCryptoPriceHistoryFunctionRole.Arn
+      Events:
+        GetHistoryAPI:
+          Type: Api
+          Properties:
+            Path: /internal/price/history
+            Method: GET
+            RestApiId: !Ref GetCryptoPriceHistoryApi
+            RequestParameters:
+              - method.request.querystring.email: { Required: true }
+              - method.request.querystring.coin: { Required: true }
+              - method.request.querystring.price: { Required: true }
+
+Outputs:
+  GetCryptoPriceApiUrl:
+    Description: 'API Gateway endpoint for retrieving current crypto price'
+    Value: !Sub 'https://${GetCryptoPriceApi}.execute-api.${AWS::Region}.amazonaws.com/price'
+  GetCryptoPriceHistoryApiUrl:
+    Description: 'API Gateway endpoint for retrieving search history'
+    Value: !Sub 'https://${GetCryptoPriceHistoryApi}.execute-api.${AWS::Region}.amazonaws.com/internal/price/history'

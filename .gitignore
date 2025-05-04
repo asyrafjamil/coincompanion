@@ -1,0 +1,7 @@
+extras
+env.test.js
+.env
+.idea/*
+.sam
+samconfig.toml
+node_modules

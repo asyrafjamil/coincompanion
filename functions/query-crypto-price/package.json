@@ -1,0 +1,16 @@
+{
+  "name": "query-crypto-price",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Asyraf J",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.799.0",
+    "axios": "^1.9.0",
+    "email-validator": "^2.0.4"
+  }
+}
