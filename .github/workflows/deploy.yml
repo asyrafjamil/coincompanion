@@ -17,6 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install dependencies in function folders
+        run: |
+          cd functions/query-crypto-price && npm ci && cd ../..
+          cd functions/query-crypto-history && npm ci && cd ../..
+
       # Step 2: Set up AWS CLI
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
