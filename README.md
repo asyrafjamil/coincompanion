@@ -103,4 +103,16 @@ Place test events in the `events/` folder.
 
 ---
 
+## 🚀 What's Next: The Future of CoinCompanion
+
+We're just getting started, and there's a lot more on the horizon! Here’s a sneak peek into the groundbreaking features we’re planning:
+
+- **Automated Scheduler**:  
+  CoinCompanion will soon include a scheduler that fetches cryptocurrency data automatically at dynamic intervals based on the CoinGecko API’s frequency. This ensures you stay updated with minimal effort, making your experience seamless and hands-off.
+
+- **Enhanced API Security**:  
+  To ensure your data remains safe and sound, we’re ramping up security for the API Gateway. Expect:
+  - **Rate Limiting**: To prevent abuse and maintain system stability, we’ll be introducing rate limits on API calls.
+  - **Token-based Authentication**: For internal API calls, we’ll require secure tokens, ensuring that only authorized requests can access sensitive data and features.
+
 ## ❤️ Made with care by Asyraf
