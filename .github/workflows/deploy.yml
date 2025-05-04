@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code from the repo
+      # Step 1: Checkout the code from the repo and install deps
       - name: Checkout code
         uses: actions/checkout@v2
 
