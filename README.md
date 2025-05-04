@@ -10,9 +10,8 @@ CoinCompanion is a serverless cryptocurrency API that delivers **real-time price
 
 1. **API Gateway**: Exposes public and internal endpoints.
 2. **Lambda Functions**: Handle price querying, history recording, and email sending.
-3. **CoinGecko API**: Source for real-time cryptocurrency prices.
-4. **DynamoDB**: Stores per-user historical price queries.
-5. **SES (Simple Email Service)**: Sends summary emails to users.
+3. **DynamoDB**: Stores per-user historical price queries.
+4. **SES (Simple Email Service)**: Sends summary emails to users.
 
 ---
 
