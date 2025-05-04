@@ -22,6 +22,9 @@ CoinCompanion is a serverless cryptocurrency API that delivers **real-time price
 
 Fetches real-time price of a cryptocurrency and triggers a summary email.
 
+**Endpoint URL**:
+https://wqxzfk7834.execute-api.ap-southeast-2.amazonaws.com/prod/price
+
 **Query Parameters**:
 
 - `email` (required): Your email address
@@ -76,6 +79,8 @@ _Example of the email when the price is increasing, showing a positive trend._
 ![Email Output Sample](./docs/email_output.png)  
 _Example of the email when the price is either dropping or there are no significant changes in the market._
 
+---
+
 ## 🧪 Local Testing
 
 You can test locally using [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli.html).
@@ -90,7 +95,7 @@ Place test events in the `events/` folder.
 
 ## 🛠️ Tech Stack
 
-- **Runtime**: Node.js
+- **Runtime**: Node.js (AWS Lambda)
 - **Infrastructure as Code**: AWS SAM
 - **Database**: AWS DynamoDB
 - **CI/CD**: GitHub Actions
