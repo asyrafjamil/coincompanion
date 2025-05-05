@@ -8,7 +8,7 @@ const analyseCryptoTrend = (coinHistoriesAsc) => {
   }, {});
 
   return Object.entries(groupedByCoin).map(([coin, coinArray]) => {
-    const [{ price: oldestPrice }, { price: latestPrice }] = [
+    const [{ price: oldestPrice }, { price: latestPrice, timestamp }] = [
       coinArray.at(0), // First item
       coinArray.at(-1), // Last item
     ];
@@ -22,6 +22,7 @@ const analyseCryptoTrend = (coinHistoriesAsc) => {
 
     return constructHistoriesPayload({
       coin,
+      timestamp,
       oldestPrice,
       latestPrice,
       change,

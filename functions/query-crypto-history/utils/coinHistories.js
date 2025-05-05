@@ -1,8 +1,6 @@
-const microtime = require('microtime');
-
 const CryptoPriceHistory = require('../models/CryptoPriceHistory');
 
-const getCoinHistoriesDesc = async ({ email, coin, price }) => {
+const getCoinHistoriesDesc = async ({ email, coin, price, timestamp }) => {
   try {
     const coinHistoriesDesc = await CryptoPriceHistory.query('email')
       .eq(email)
@@ -13,7 +11,7 @@ const getCoinHistoriesDesc = async ({ email, coin, price }) => {
     // Append the latest queried coin by user when the lambda is executed
     await CryptoPriceHistory.create({
       email,
-      timestamp: microtime.now(),
+      timestamp,
       coin,
       price: Number(price),
     });

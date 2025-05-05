@@ -1,3 +1,5 @@
+const microtime = require('microtime');
+
 const {
   getCoinHistoriesDesc,
   getCoinHistoriesAsc,
@@ -41,10 +43,13 @@ const {
 exports.lambdaHandler = async (event) => {
   try {
     const { email, coin, price } = event.queryStringParameters;
+    const currentTimestamp = microtime.now();
+
     const coinHistoriesDesc = await getCoinHistoriesDesc({
       email,
       coin,
       price,
+      timestamp: currentTimestamp,
     });
 
     // Handle edge case when there isnt sufficient amount for analytics
@@ -52,7 +57,11 @@ exports.lambdaHandler = async (event) => {
       return {
         statusCode: 200,
         body: JSON.stringify([
-          constructHistoriesPayload({ coin, latestPrice: price }),
+          constructHistoriesPayload({
+            coin,
+            latestPrice: price,
+            timestamp: currentTimestamp,
+          }),
         ]),
       };
     }

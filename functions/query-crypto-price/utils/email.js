@@ -53,6 +53,7 @@ const _generateEmailHtml = (coinHistories) => {
 const _generateCoinHtmlSection = ({
   coin,
   latestPrice,
+  fetchedAt,
   oldestPrice = null,
   change = null,
   changePercent = null,
@@ -64,6 +65,7 @@ const _generateCoinHtmlSection = ({
         <h2>${coin.toUpperCase()}</h2>
         <p>We’ve just started tracking this coin for you.</p>
         <p><strong>Current Price:</strong> ${latestPrice} USD</p>
+        <p><strong>Price as of:</strong> ${fetchedAt} USD</p>
         <p><em>Give it some time and we’ll generate insights soon!</em></p>
       </div>
     `;
@@ -81,6 +83,7 @@ const _generateCoinHtmlSection = ({
       <ul style="list-style:none; padding:0;">
         <li><strong>🕒 Oldest Price:</strong> ${oldestPrice} USD</li>
         <li><strong>📈 Latest Price:</strong> ${latestPrice} USD</li>
+        <li><strong>📅 Price as of:</strong> ${fetchedAt}</li>
         <li><strong>💸 Change:</strong> ${
           change >= 0 ? '+' : ''
         }${change.toFixed(2)} USD</li>
