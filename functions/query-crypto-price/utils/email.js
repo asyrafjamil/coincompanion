@@ -65,7 +65,7 @@ const _generateCoinHtmlSection = ({
         <h2>${coin.toUpperCase()}</h2>
         <p>We’ve just started tracking this coin for you.</p>
         <p><strong>Current Price:</strong> ${latestPrice} USD</p>
-        <p><strong>Price as of:</strong> ${fetchedAt} USD</p>
+        <p><strong>Price as of:</strong> ${fetchedAt}</p>
         <p><em>Give it some time and we’ll generate insights soon!</em></p>
       </div>
     `;
