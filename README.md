@@ -66,6 +66,13 @@ Please note that since SES is currently in **sandbox mode**, the email may end u
 
 ### Example Email Outputs:
 
+#### 🆕 First-Time Query:
+
+![Email Output Sample](./docs/email_output_first_query.png)  
+_Example of the email when the coin is queried for the first time. Analytics are not available yet due to insufficient data._
+
+---
+
 #### 📈 When the Price is Going Up:
 
 ![Email Output Sample](./docs/email_output_price_up.png)  
