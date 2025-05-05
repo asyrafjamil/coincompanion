@@ -75,7 +75,7 @@ _Example of the email when the price is increasing, showing a positive trend._
 
 #### 📉 When the Price is Dropping or Showing No Major Change:
 
-![Email Output Sample](./docs/email_output.png)  
+![Email Output Sample](./docs/email_output_down_no_change.png)  
 _Example of the email when the price is either dropping or there are no significant changes in the market._
 
 ---
