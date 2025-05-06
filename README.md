@@ -117,9 +117,24 @@ We're just getting started, and there's a lot more on the horizon! Here’s a sn
   CoinCompanion will soon include a scheduler that fetches cryptocurrency data automatically at dynamic intervals based on the CoinGecko API’s frequency. This ensures you stay updated with minimal effort, making your experience seamless and hands-off.
 
 - **Enhanced API Security**:  
-  To ensure your data remains safe and sound, we’re ramping up security for the API Gateway. Expect:
+   To ensure your data remains safe and sound, we’re ramping up security for the API Gateway. Expect:
+
   - **Rate Limiting**: To prevent abuse and maintain system stability, we’ll be introducing rate limits on API calls.
   - **Token-based Authentication**: For internal API calls, we’ll require secure tokens, ensuring that only authorized requests can access sensitive data and features.
+
+- **Smart Pagination for Scalability & Insight**:
+
+  I am also working on implementing **pagination** to support viewing the full crypto history.
+
+  Initially, I wanted to deliver the _entire history_ at once, but I quickly realized the scalability trade-offs that come with loading everything in bulk. Instead of compromising performance, we’re designing a service that balances _completeness with efficiency_.
+
+  This includes:
+
+  - Organizing records intelligently (e.g. by **email** + **timestamp**)
+  - Leveraging **DynamoDB’s query flexibility**
+  - Making sure the UX feels infinite and responsive, no matter how large your portfolio grows
+
+  You’ll be able to explore your entire history, one scroll at a time, without the system breaking a sweat.
 
 ---
 
