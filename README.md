@@ -122,11 +122,10 @@ We're just getting started, and there's a lot more on the horizon! Here’s a sn
   - **Rate Limiting**: To prevent abuse and maintain system stability, we’ll be introducing rate limits on API calls.
   - **Token-based Authentication**: For internal API calls, we’ll require secure tokens, ensuring that only authorized requests can access sensitive data and features.
 
-- **Smart Pagination for Scalability & Insight**:
-
+- **Smart Pagination for Scalability & Insight**:  
   I am also working on implementing **pagination** to support viewing the full crypto history.
 
-  Initially, I wanted to deliver the _entire history_ at once, but I quickly realized the scalability trade-offs that come with loading everything in bulk. Instead of compromising performance, we’re designing a service that balances _completeness with efficiency_.
+  Initially, I wanted to deliver the _entire history_ at once, but I quickly realized the scalability trade-offs that come with loading everything in bulk. Instead of compromising performance, I am designing a service that balances _completeness with efficiency_.
 
   This includes:
 
